@@ -49,13 +49,13 @@ for(i in 1:nrow(hlaSNP)){
                 } else if(pos$V6 == "C"){
                     pos$V6 = "G"
                 }
-#If flipping doesn't work, label as "FRED" to exclude later                
+#If flipping doesn't work, label as "exc" to exclude later                
                 if(pos$V5 == hlaSNP[i,]$V2 & pos$V6 == hlaSNP[i,]$V3){
                     bimSNP[bimSNP$V4 == hlaSNP[i,]$V1,] <- pos
                 } else if (pos$V6 == hlaSNP[i,]$V2 & pos$V5 == hlaSNP[i,]$V3){
                     bimSNP[bimSNP$V4 == hlaSNP[i,]$V1,] <- pos
                 } else{
-                    bimSNP[bimSNP$V4 == hlaSNP[i,]$V1,]$V2[j] <- "FRED"
+                    bimSNP[bimSNP$V4 == hlaSNP[i,]$V1,]$V2[j] <- "exc"
                 }               
             }
         }

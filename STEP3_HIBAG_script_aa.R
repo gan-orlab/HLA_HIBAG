@@ -1,10 +1,10 @@
-#module load gcc/7.3 r-bundle-bioconductor/3.9
+#module load gcc/9.3 r-bundle-bioconductor/3.12
 
 library(data.table)
 
 .libPaths(c("~/runs/eyu8/library/HIBAG",
-"/cvmfs/soft.computecanada.ca/easybuild/software/2017/avx512/Compiler/gcc7.3/r-bundle-bioconductor/3.9",
-"/cvmfs/soft.computecanada.ca/easybuild/software/2017/avx512/Compiler/gcc7.3/r/3.6.0/lib64/R/library"))
+"/cvmfs/soft.computecanada.ca/easybuild/software/2020/avx512/Compiler/gcc9/r-bundle-bioconductor/3.12",
+"/cvmfs/soft.computecanada.ca/easybuild/software/2020/avx512/Core/r/4.0.2/lib64/R/library"))
 
 library(HIBAG)
 library(readr)
