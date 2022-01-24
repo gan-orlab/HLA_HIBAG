@@ -57,7 +57,7 @@ for (n in gene){
 
 <a id="1"></a>
 ## 1. Pre-processing of imputed data
-Individual-level data was first imputed using 1000G phase 3 version 5. This step is used to select  hard calls (*r*>0.8) SNPs from the reference panel and add sex and phenotype labels removed during imputation. The R script called FRED.R will match and flip alleles accordingly. 
+Individual-level data was first imputed using 1000G phase 3 version 5. This step is used to select  hard calls (*r*>0.8) SNPs from the reference panel and add sex and phenotype labels removed during imputation. The R script called exc.R will match and flip alleles accordingly. 
 ```bash
 #Extract SNPs hard calls in reference panel from VCF; add sex, pheno; remove duplicates
 
@@ -84,15 +84,15 @@ paste -d "\t" bfile/temp2.bim bfile/temp.bim > bfile/$FILE'_hardcall'.bim
 
 rm bfile/temp*
 
-plink --bfile bfile/$FILE'_hardcall' --extract RData/csv/$REF/HLA_snp.csv --update-sex txt_data/sex/$FILE.sex --pheno txt_data/pheno/$FILE.pheno --make-bed --out pre_FRED
+plink --bfile bfile/$FILE'_hardcall' --extract RData/csv/$REF/HLA_snp.csv --update-sex txt_data/sex/$FILE.sex --pheno txt_data/pheno/$FILE.pheno --make-bed --out pre_exc
 
-Rscript FRED.R RData/csv/$REF/unique_HLA.csv pre_FRED.bim
+Rscript exc.R RData/csv/$REF/unique_HLA.csv pre_exc.bim
 
-mv a pre_FRED.bim
+mv a pre_exc.bim
 
-plink --bfile pre_FRED --extract RData/csv/$REF/HLA_snp.csv --make-bed --out bfile/final_$FILE'_'$ANCESTRY
+plink --bfile pre_exc --extract RData/csv/$REF/HLA_snp.csv --make-bed --out bfile/final_$FILE'_'$ANCESTRY
 
-rm pre_FRED*
+rm pre_exc*
 
 ```
 <a id="2"></a>
