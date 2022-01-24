@@ -10,13 +10,13 @@ setwd(d)
 
 args <- commandArgs(trailingOnly = TRUE)
 
-allele <- args[1]
+gene <- args[1]
 FILE <- args[2]
 SUFFIX <- args[3]
 REF <- args[4]
 core <- args[5]
 
-sink(paste("log/",SUFFIX,"/HLA-",allele,"_",SUFFIX,".log",sep=""), split = TRUE)
+sink(paste("log/",SUFFIX,"/HLA-",gene,"_",SUFFIX,".log",sep=""), split = TRUE)
 
 
 #parallel for snow
@@ -33,13 +33,13 @@ yourgeno <- hlaBED2Geno(bed.fn=paste(FILE,".bed",sep=""), fam.fn=paste(FILE,".fa
 
 
 message("Imputation of HLA-",SUFFIX)
-model <- hlaModelFromObj(model.list[[allele]])
+model <- hlaModelFromObj(model.list[[gene]])
 
 pred.guess <- predict(model, yourgeno,
 type="response+prob",match.type="Position",cl=cl)
 
 summary(pred.guess)
 
-write.csv(pred.guess$value,paste(SUFFIX,"/HLA-",allele,"_",SUFFIX,".csv",sep=""),row.names=FALSE)
+write.csv(pred.guess$value,paste(SUFFIX,"/HLA-",gene,"_",SUFFIX,".csv",sep=""),row.names=FALSE)
 
 

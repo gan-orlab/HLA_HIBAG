@@ -8,16 +8,16 @@ library(HIBAG)
 library(parallel)
 setwd(d)
 
-#args[1] is allele args[2] is reference args[3] is suffix
+#args[1] is gene args[2] is reference args[3] is suffix
 args <- commandArgs(trailingOnly = TRUE)
 
-allele <- args[1]
+gene <- args[1]
 FILE <- args[2]
 SUFFIX <- args[3]
 REF <- args[4]
 core <- args[5]
 
-sink(paste("log/",SUFFIX,"/HLA-",allele,"_",SUFFIX,".log",sep=""), split = TRUE)
+sink(paste("log/",SUFFIX,"/HLA-",gene,"_",SUFFIX,".log",sep=""), split = TRUE)
 
 
 #parallel for snow
@@ -40,6 +40,6 @@ type="response+prob",match.type="Position",cl=cl)
 
 summary(pred.guess)
 
-write.csv(pred.guess$value,paste(SUFFIX,"/HLA-",allele,"_",SUFFIX,".csv",sep=""),row.names=FALSE)
+write.csv(pred.guess$value,paste(SUFFIX,"/HLA-",gene,"_",SUFFIX,".csv",sep=""),row.names=FALSE)
 
 
