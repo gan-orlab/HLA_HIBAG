@@ -2,26 +2,18 @@
 
 library(data.table)
 
-.libPaths(c("~/runs/eyu8/library/HIBAG",
-"/cvmfs/soft.computecanada.ca/easybuild/software/2020/avx512/Compiler/gcc9/r-bundle-bioconductor/3.12",
-"/cvmfs/soft.computecanada.ca/easybuild/software/2020/avx512/Core/r/4.0.2/lib64/R/library"))
-
 library(HIBAG)
 library(readr)
 
-setwd("~/runs/eyu8/data/HLA_typing/HIBAG/")
-
 #arg 1 is FILE arg2 is REGION
 args <- commandArgs(trailingOnly = TRUE)
-
-
 
 FILE <- args[1]
 REGION <- args[2]
 
 if(FILE != "ukbb"){
 
-    covar <- as.data.frame(fread(paste0("~/runs/eyu8/data/HLA_typing/HIBAG/txt_data/", FILE, "/", FILE, "_covar.txt")))
+    covar <- as.data.frame(fread(paste0("/lustre03/project/6004655/COMMUN/runs/eyu8/data/HLA_typing/HIBAG/txt_data/", FILE, "/", FILE, "_covar.txt")))
 
     A <- read.csv(file=paste0("csv/", FILE, "_", REGION, "/HLA-A_", FILE, "_", REGION, ".csv"), sep=",",stringsAsFactors=FALSE)
     B <- read.csv(file=paste0("csv/", FILE, "_", REGION, "/HLA-B_", FILE, "_", REGION, ".csv"), sep=",",stringsAsFactors=FALSE)
@@ -33,8 +25,8 @@ if(FILE != "ukbb"){
 
 } else if(FILE == "ukbb" && REGION == "PD"){
 
-    PD <- as.data.frame(fread("~/runs/eyu8/data/ukbb_dagher/ukbb_PD_covar.txt"))
-    control_PD <- as.data.frame(fread("~/runs/eyu8/data/HLA_typing/HIBAG/ukbb/ukbb_control_PD_covar.txt"))
+    PD <- as.data.frame(fread("/lustre03/project/6004655/COMMUN/runs/eyu8/data/ukbb_dagher/ukbb_PD_covar.txt"))
+    control_PD <- as.data.frame(fread("/lustre03/project/6004655/COMMUN/runs/eyu8/data/HLA_typing/HIBAG/ukbb/ukbb_control_PD_covar.txt"))
 
     PD$phenotype <- 2
     control_PD$phenotype <- 1
@@ -52,8 +44,8 @@ if(FILE != "ukbb"){
 
 } else if(FILE == "ukbb" && REGION == "Proxy"){
 
-    Proxy <- as.data.frame(fread("~/runs/eyu8/data/ukbb_dagher/ukbb_proxy_covar.txt"))
-    control_Proxy <- as.data.frame(fread("~/runs/eyu8/data/HLA_typing/HIBAG/ukbb/ukbb_control_proxy_covar.txt"))
+    Proxy <- as.data.frame(fread("/lustre03/project/6004655/COMMUN/runs/eyu8/data/ukbb_dagher/ukbb_proxy_covar.txt"))
+    control_Proxy <- as.data.frame(fread("/lustre03/project/6004655/COMMUN/runs/eyu8/data/HLA_typing/HIBAG/ukbb/ukbb_control_proxy_covar.txt"))
 
     Proxy$phenotype <- 2
     control_Proxy$phenotype <- 1
@@ -157,6 +149,6 @@ for(i in 1:7){
 	    })
     
     hla_result <- Reduce(rbind, hla_aa_result)
-    write_delim(hla_result,paste0("HLA-",names(HLA)[i],"_",FILE,"_",REGION,"_aa.txt"), delim = " ", na = "NA", append = FALSE, col_names = TRUE, quote_escape = "double")
+    write_delim(hla_result,paste0("HLA-",names(HLA)[i],"_",FILE,"_",REGION,"_aa.txt"), delim = " ", na = "NA", append = FALSE, col_names = TRUE, escape = "double")
 }
 

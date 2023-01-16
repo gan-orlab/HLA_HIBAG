@@ -2,7 +2,6 @@
 
 RDATA=$1
 REF=$2
-module load gcc/7.3.0 r-bundle-bioconductor/3.9
 
 mkdir tmp
 Rscript script/extract_snp.R $RDATA

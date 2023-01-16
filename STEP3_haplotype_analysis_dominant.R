@@ -1,9 +1,5 @@
 #module load gcc/9.3 r-bundle-bioconductor/3.12
 
-.libPaths(c("~/runs/eyu8/library/HIBAG",
-"/cvmfs/soft.computecanada.ca/easybuild/software/2020/avx512/Compiler/gcc9/r-bundle-bioconductor/3.12",
-"/cvmfs/soft.computecanada.ca/easybuild/software/2020/avx512/Core/r/4.0.2/lib64/R/library"))
-
 library(HIBAG)
 library(readr)
 library(data.table)
@@ -21,7 +17,7 @@ REGION <- args[2]
 
 if(FILE != "ukbb"){
 
-    covar <- as.data.frame(fread(paste0("~/runs/eyu8/data/HLA_typing/HIBAG/txt_data/", FILE, "/", FILE, "_covar.txt")))
+    covar <- as.data.frame(fread(paste0("/lustre03/project/6004655/COMMUN/runs/eyu8/data/HLA_typing/HIBAG/txt_data/", FILE, "/", FILE, "_covar.txt")))
 
     A <- read.csv(file=paste0("csv/", FILE, "_", REGION, "/HLA-A_", FILE, "_", REGION, ".csv"), sep=",",stringsAsFactors=FALSE)
     B <- read.csv(file=paste0("csv/", FILE, "_", REGION, "/HLA-B_", FILE, "_", REGION, ".csv"), sep=",",stringsAsFactors=FALSE)
@@ -35,8 +31,8 @@ if(FILE != "ukbb"){
     DRB5 <- read.csv(file=paste0("csv/", FILE, "_DRB5/HLA-DRB5_", FILE, "_DRB5.csv"), sep=",",stringsAsFactors=FALSE)
 } else if(FILE == "ukbb" && REGION == "PD"){
 
-    PD <- as.data.frame(fread("~/runs/eyu8/data/HLA_typing/HIBAG/ukbb/ukbb_PD_covar.txt"))
-    control_PD <- as.data.frame(fread("~/runs/eyu8/data/HLA_typing/HIBAG/ukbb/ukbb_control_PD_covar.txt"))
+    PD <- as.data.frame(fread("/lustre03/project/6004655/COMMUN/runs/eyu8/data/HLA_typing/HIBAG/ukbb/ukbb_PD_covar.txt"))
+    control_PD <- as.data.frame(fread("/lustre03/project/6004655/COMMUN/runs/eyu8/data/HLA_typing/HIBAG/ukbb/ukbb_control_PD_covar.txt"))
 
     names(PD)[names(PD) == "AgeAtRecruit"] <- "age"
     names(control_PD)[names(control_PD) == "AgeAtRecruit"] <- "age"
@@ -63,8 +59,8 @@ if(FILE != "ukbb"){
 
 } else if(FILE == "ukbb" && REGION == "Proxy"){
 
-    Proxy <- as.data.frame(fread("~/runs/eyu8/data/HLA_typing/HIBAG/ukbb/ukbb_proxy_covar.txt"))
-    control_Proxy <- as.data.frame(fread("~/runs/eyu8/data/HLA_typing/HIBAG/ukbb/ukbb_control_proxy_covar.txt"))
+    Proxy <- as.data.frame(fread("/lustre03/project/6004655/COMMUN/runs/eyu8/data/HLA_typing/HIBAG/ukbb/ukbb_proxy_covar.txt"))
+    control_Proxy <- as.data.frame(fread("/lustre03/project/6004655/COMMUN/runs/eyu8/data/HLA_typing/HIBAG/ukbb/ukbb_control_proxy_covar.txt"))
     names(Proxy)[names(Proxy) == "AgeAtRecruit"] <- "age"
     names(control_Proxy)[names(control_Proxy) == "AgeAtRecruit"] <- "age"
 
@@ -113,6 +109,8 @@ seed <- c(17, 53, 1, 40, 37, 0, 62, 56, 5, 52, 12, 1)
 set.seed(seed)
 
 haplotype_glm <- function(pattern){
+
+    message(paste("Running", pattern))
 
     geno <- HLA_merged[,grep(pattern,names(HLA_merged))]
     label <- names(HLA)[grep(pattern,names(HLA))]
@@ -194,13 +192,13 @@ haplotype_glm <- function(pattern){
         result <- Reduce(rbind, haplo_table)
         filename <- paste(label, collapse = "_")
 
-        write_delim(result,paste0("haplotype_",filename,"_",FILE,"_",REGION,"_dominant.txt"), delim = " ", na = "NA", append = FALSE, col_names = TRUE, quote_escape = "double")
+        write_delim(result,paste0("haplotype_",filename,"_",FILE,"_",REGION,"_dominant.txt"), delim = " ", na = "NA", append = FALSE, col_names = TRUE, escape = "double")
 
 }
 
-#haplotype_glm("DQA1|DQB1")
-#haplotype_glm("DQA1|DRB1")
-#haplotype_glm("DQB1|DRB1")
-#haplotype_glm("DQA1|DQB1|DRB1")
+haplotype_glm("DQA1|DQB1")
+haplotype_glm("DQA1|DRB1")
+haplotype_glm("DQB1|DRB1")
+haplotype_glm("DQA1|DQB1|DRB1")
 haplotype_glm("DQA1|DQB1|DRB1|DRB4")
 

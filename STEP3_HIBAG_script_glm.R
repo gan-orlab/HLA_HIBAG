@@ -149,5 +149,5 @@ for(i in 1:10){
         }
         return(cbind(allele, HLA_ntotal, HLA_ncase, HLA_ncontrol, HLA_freq, HLA_carrier_freq_case, HLA_carrier_freq_control, Reduce(cbind, var_list)))})
     result <- Reduce(rbind, HLA_table)
-    write_delim(result,paste0("HLA-",names(HLA)[i],"_",FILE,"_",REGION,".txt"), delim = " ", na = "NA", append = FALSE, col_names = TRUE, quote_escape = "double")
+    write_delim(result,paste0("HLA-",names(HLA)[i],"_",FILE,"_",REGION,".txt"), delim = " ", na = "NA", append = FALSE, col_names = TRUE, escape = "double")
 }

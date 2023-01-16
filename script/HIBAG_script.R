@@ -1,10 +1,6 @@
 d <- getwd()
 
-.libPaths(c("~/runs/eyu8/library/HIBAG",
-            "/cvmfs/soft.computecanada.ca/easybuild/software/2017/avx512/Compiler/gcc7.3/r-bundle-bioconductor/3.9",
-            "/cvmfs/soft.computecanada.ca/easybuild/software/2017/avx512/Compiler/gcc7.3/r/3.6.0/lib64/R/library"))
-
-library("HIBAG")
+library(HIBAG)
 library(parallel)
 setwd(d)
 
@@ -21,10 +17,6 @@ sink(paste("log/",SUFFIX,"/HLA-",gene,"_",SUFFIX,".log",sep=""), split = TRUE)
 
 #parallel for snow
 cl <- makeCluster(as.numeric(core))
-
-clusterEvalQ(cl, .libPaths(c("~/runs/eyu8/library/HIBAG",
-                             "/cvmfs/soft.computecanada.ca/easybuild/software/2017/avx512/Compiler/gcc7.3/r-bundle-bioconductor/3.9",
-                             "/cvmfs/soft.computecanada.ca/easybuild/software/2017/avx512/Compiler/gcc7.3/r/3.6.0/lib64/R/library")))
 
 model.list <- get(load(REF))
 
